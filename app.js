@@ -17,9 +17,3 @@ app.get('/', (req, res) => {
     const output = recursiveFunction(9); // Вызываем рекурсивную функцию с 9
     res.status(200).send(output); // Отправляем результат клиенту
 });
-
-// Запуск сервера
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(Server is running on http://localhost:${PORT});
-});
