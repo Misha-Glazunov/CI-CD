@@ -1,13 +1,25 @@
-public class Main {
-    public static void recursiveFunction(int number) {
-        System.out.println(number);
-        if (number > 2) {
-            recursiveFunction(number / 2);
-            recursiveFunction(number / 3);
-        }
-    }
+// app.js
+const express = require('express');
+const app = express();
 
-    public static void main(String[] args) {
-        recursiveFunction(9);
+// Рекурсивная функция
+const recursiveFunction = (number) => {
+    let result = number + '\n'; // Начнем с текущего номера
+    if (number > 2) {
+        result += recursiveFunction(Math.floor(number / 2)); // Рекурсия с number / 2
+        result += recursiveFunction(Math.floor(number / 3)); // Рекурсия с number / 3
     }
-}
+    return result; // Возвращаем результат
+};
+
+// Главная точка маршрута
+app.get('/', (req, res) => {
+    const output = recursiveFunction(9); // Вызываем рекурсивную функцию с 9
+    res.status(200).send(output); // Отправляем результат клиенту
+});
+
+// Запуск сервера
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(Server is running on http://localhost:${PORT});
+});
