@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const port = 3000; // Вы можете использовать любой другой порт
 
 // Определяем рекурсивную функцию
 function recursiveFunction(number) {
@@ -10,27 +11,21 @@ function recursiveFunction(number) {
     }
 }
 
-// Определяем роут для запуска рекурсивной функции
-app.get('/run-recursion/:number', (req, res) => {
-    const number = parseInt(req.params.number, 10);
-    if (isNaN(number)) {
-        return res.status(400).send('Invalid number');
-    }
-    
-    const output = [];
-    
-    const originalConsoleLog = console.log; // Храним оригинальный console.log
-    
-    console.log = (value) => { // Переопределяем console.log для сбора выводимых значений
-        output.push(value);
-    };
-    
-    recursiveFunction(number); // Вызываем рекурсивную функцию
-
-    console.log = originalConsoleLog; // Восстанавливаем оригинальный console.log
-    
-    res.send(output.join('\n')); // Возвращаем собранные выводы как ответ
+// Обработка корневого маршрута
+app.get('/', (req, res) => {
+    res.send('Hello, World!');
 });
 
-// Экспортируем приложение
-module.exports = app;
+// Дополнительный маршрут для запуска вашей рекурсивной функции
+app.get('/start/:number', (req, res) => {
+    const number = parseInt(req.params.number, 10);
+    recursiveFunction(number);
+    res.send(Recursive function started with ${number});
+});
+
+// Запуск сервера
+app.listen(port, () => {
+    console.log(Server is running on http://localhost:${port});
+});
+
+module.exports = app; // Это нужно для тестов
